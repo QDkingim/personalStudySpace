@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>一个带有GUI的Web小程序,其描述了对事件的响应</title>
+    <style>
+      #first {
+        color: green;
+      }
+
+      #second {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="first"></ul>
+    <script>
+      function addMessage(element, message) {
+        var messageElement = document.createElement("li");
+        messageElement.textContent = message;
+        element.appendChild(messageElement);
+      }
+
+      var first = document.getElementById("first");
+      addMessage(first, "Page loading");
+    </script>
+    <ul id="second"></ul>
+    <script>
+      var second = document.getElementById("second");
+
+      document.body.addEventListener("mousemove", function () {
+        addMessage(second, "Event:Mousemove");
+      });
+
+      document.body.addEventListener("click", function () {
+        addMessage(second, "Event:Click");
+      });
+    </script>
+  </body>
+</html>

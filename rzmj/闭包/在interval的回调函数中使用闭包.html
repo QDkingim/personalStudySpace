@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="执行上下文.js"></script>
+  </head>
+  <body>
+    <style>
+      #box1 {
+        width: 10px;
+        height: 10px;
+        background-color: #eecefe;
+        position: absolute;
+      }
+    </style>
+    <div id="box1"></div>
+    <script>
+      function animateIt(element) {
+        var elem = document.getElementById(element);
+        var tick = 0;
+        var timer = setInterval(function () {
+          if (tick < 100) {
+            elem.style.left = elem.style.top = tick + "px";
+            tick++;
+          } else {
+            clearInterval(timer);
+            console.assert(tick === 100, "Tick accessed via a closure.");
+            console.assert(elem, "Element also accessed via a closure");
+            console.assert(
+              timer,
+              "Timer reference also obtained via a closure"
+            );
+          }
+        }, 10);
+      }
+      animateIt("box1");
+    </script>
+  </body>
+</html>

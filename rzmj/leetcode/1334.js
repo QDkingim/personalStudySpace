@@ -43,14 +43,28 @@
 //   [2, 3, 1]
 // ], 4));
 
-function rangeOfNumbers(startNum, endNum) {
-  if (endNum < startNum) {
-    return [];
-  } else {
-    const numbers = rangeOfNumbers(startNum, endNum - 1);
-    numbers.push(endNum);
-    return numbers;
-  }
-}
+// function rangeOfNumbers(startNum, endNum) {
+//   if (endNum < startNum) {
+//     return [];
+//   } else {
+//     const numbers = rangeOfNumbers(startNum, endNum - 1);
+//     numbers.push(endNum);
+//     return numbers;
+//   }
+// }
 
-console.log(rangeOfNumbers(1, 5));
+// console.log(rangeOfNumbers(1, 5));
+
+
+function chunkArrayInGroups(arr, size) {
+  let reArr = [];
+  while (arr.length !== 0) {
+    let tempArr = []
+    for (let i = 0; i < size; i++) {
+      arr[0] === 0 || arr[0] ? tempArr.push(arr.shift()) : {}
+    }
+    reArr.push(tempArr)
+  }
+  return reArr;
+}
+console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5, 6, 7, 8], 2))

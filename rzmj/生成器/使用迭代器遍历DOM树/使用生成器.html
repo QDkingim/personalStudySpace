@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="subTree">
+      <form action="">
+        <input type="text" name="" id="" />
+      </form>
+      <p>Paragraph</p>
+      <span>Span</span>
+    </div>
+
+    <script>
+      window.onload = function () {
+        function* DomTeaverse(element) {
+          yield element;
+          element = element.firstElementChild;
+          while (element) {
+            yield* DomTeaverse(element);
+            element = element.nextElementSibling;
+          }
+        }
+
+        const subTree = document.getElementById("subTree");
+        for (const element of DomTeaverse(subTree)) {
+          if (element !== null) {
+            console.log(element.nodeName);
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模拟类数组方法</title>
+  </head>
+  <body>
+    <input type="text" name="" id="first" />
+    <input type="text" name="" id="second" />
+    <script>
+      const elems = {
+        length: 0,
+        add: function (elem) {
+          Array.prototype.push.call(this, elem);
+        },
+        gather: function (id) {
+          this.add(document.getElementById(id));
+        },
+        find: function (callback) {
+          return Array.prototype.find.call(this, callback);
+        },
+      };
+
+      // elems.gather("first");
+      // console.log(elems);
+
+      // elems.gather("second");
+      // console.log(elems);
+
+      // const found = elems.find((elem) => elem.id === "first");
+      // console.log(found);
+    </script>
+  </body>
+</html>

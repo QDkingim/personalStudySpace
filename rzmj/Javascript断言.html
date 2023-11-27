@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Suite</title>
+    <script>
+      function assert(value, desc) {
+        var li = document.createElement("li");
+        li.className = value ? "pass" : "fail";
+        li.appendChild(document.createTextNode(desc));
+        document.getElementById("result").appendChild(li);
+      }
+
+      window.onload = function () {
+        assert(true, "the test suite is running");
+        assert(false, "Fail!");
+      };
+    </script>
+    <style>
+      #result li.pass {
+        color: green;
+      }
+      #result li.fail {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="result"></ul>
+  </body>
+</html>

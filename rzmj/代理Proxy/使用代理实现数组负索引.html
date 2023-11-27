@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Suite</title>
+    <script>
+      function assert(value, desc) {
+        var li = document.createElement("li");
+        li.className = value ? "pass" : "fail";
+        li.appendChild(document.createTextNode(desc));
+        document.getElementById("result").appendChild(li);
+      }
+
+      function report(txt) {
+        assert(true, txt);
+      }
+      // window.onload = function () {
+      //   assert(true, "the test suite is running");
+      //   assert(false, "Fail!");
+      // };
+    </script>
+    <style>
+      #result li.pass {
+        color: green;
+      }
+      #result li.fail {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="result"></ul>
+
+    <script>
+      // 使用代理实现数组负索引
+      function createNegativeArrayProxy(array) {
+        //
+        if (!Array.isArray(array)) {
+          throw new TypeError("expected an array");
+        }
+
+        return new Proxy(array, {
+          get: (target, index) => {
+            index = +index;
+            return target[index < 0 ? target.length + index : index];
+          },
+          set: (target, index, val) => {
+            index = +index;
+            target[index < 0 ? target.length + index : index] = val;
+          },
+        });
+      }
+
+      const ninja = ["Yoshi", "Kuma", "Hattori"];
+
+      const proxiedNinja = createNegativeArrayProxy(ninja);
+
+      assert(
+        ninja[0] === "Yoshi" && ninja[1] === "Kuma" && ninja[2] === "Hattori",
+        "Array items accessed through positive indexes"
+      );
+
+      assert(
+        proxiedNinja[0] === "Yoshi" &&
+          proxiedNinja[1] === "Kuma" &&
+          proxiedNinja[2] === "Hattori",
+        "Array items accessed through positive indexs on a proxy"
+      );
+
+      assert(
+        proxiedNinja[-1] === "Hattori" &&
+          proxiedNinja[-2] === "Kuma" &&
+          proxiedNinja[-3] === "Yoshi",
+        "But they can  be accessed through negative indexes"
+      );
+
+      proxiedNinja[-1] = "Hachi";
+
+      assert(
+        proxiedNinja[-1] === "Hachi" && ninja[2] === "Hachi",
+        "Items can be changed through negative indexes"
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>通过对象模拟Set</title>
+    <script>
+      function assert(value, desc) {
+        var li = document.createElement("li");
+        li.className = value ? "pass" : "fail";
+        li.appendChild(document.createTextNode(desc));
+        document.getElementById("result").appendChild(li);
+      }
+
+      window.onload = function () {
+        assert(true, "the test suite is running");
+        assert(false, "Fail!");
+      };
+    </script>
+    <style>
+      #result li.pass {
+        color: green;
+      }
+      #result li.fail {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="result"></ul>
+    <script>
+      function Set() {
+        this.data = {};
+        this.length = 0;
+      }
+
+      Set.prototype.has = function (item) {
+        return typeof this.data[item] !== "undefined";
+      };
+
+      Set.prototype.add = function (item) {
+        if (!this.has(item)) {
+          this.data[item] = true;
+          this.length++;
+        }
+      };
+
+      Set.prototype.remove = function (item) {
+        if (this.has(item)) {
+          delete this.data[item];
+          this.length--;
+        }
+      };
+    </script>
+  </body>
+</html>

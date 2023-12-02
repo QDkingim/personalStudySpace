@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dom操作</title>
+  </head>
+  <body>
+    <style>
+      div {
+        color: green !important;
+      }
+    </style>
+
+    <div style="color: red">Ninjas</div>
+
+    <script>
+      let div = document.querySelector("div");
+      let computeStyle = getComputedStyle(div);
+      console.log(computeStyle.getPropertyValue("color"));
+    </script>
+  </body>
+</html>

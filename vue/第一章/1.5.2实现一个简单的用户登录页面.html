@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3.3.9/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div style="text-align: center" id="Application">
+      <!-- 标题 -->
+      <h1>{{title}}</h1>
+      <!-- 创建账号和密码输入组件 -->
+      <div v-if="noLogin">账号: <input type="text" v-model="userName" /></div>
+      <div v-if="noLogin">
+        密码: <input type="password" v-model="password" />
+      </div>
+
+      <!-- D登录按钮 -->
+      <div
+        v-on:click="click"
+        style="
+          border-radius: 30px;
+          width: 100px;
+          margin: 20 auto;
+          color: white;
+          background-color: blue;
+        "
+      >
+        {{buttonTitle}}
+      </div>
+    </div>
+
+    <script>
+      const app = {
+        data() {
+          return {
+            title: "欢迎您:未登录",
+            noLogin: true,
+            userName: "",
+            password: "",
+            buttonTitle: "登录",
+          };
+        },
+        methods: {
+          click() {
+            if (this.noLogin) {
+              this.login();
+            } else {
+              this.logout();
+            }
+          },
+          login() {
+            if (this.userName.length > 0 && this.password.length > 0) {
+              alert(`userName:${this.userName} password:${this.password}`);
+              this.noLogin = false;
+              this.title = `欢迎您:${this.userName}`;
+              this.buttonTitle = "注销";
+              this.userName = "";
+              this.password = "";
+            } else {
+              alert("请输入账号密码");
+            }
+          },
+          logout() {
+            this.noLogin = true;
+            this.title = "欢迎您:未登录";
+            this.buttonTitle = "登录";
+          },
+        },
+      };
+
+      Vue.createApp(app).mount("#Application"); // Vue组件绑定
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>随鼠标移动的小球</title>
+    <script src="https://unpkg.com/vue@3.3.9/dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        width: 440px;
+        height: 440px;
+        background-color: blanchedalmond;
+        display: inline;
+      }
+
+      .ball {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        left: 100px;
+        top: 100px;
+        background-color: red;
+        border-radius: 30px;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="Application">
+      <!-- 外层的div为游戏面板,小球需要在此容器中移动 -->
+      <div @mousemove.stop="move" class="container">
+        <!-- 此div元素表示小球 -->
+        <div class="ball" :style="{left: offsetX+'px',top:offsetY+'px'}"></div>
+      </div>
+    </div>
+
+    <script>
+      const app = {
+        data() {
+          return {
+            offsetX: 0, // 小球在面板中的位置,x坐标
+            offsetY: 0, // 小球在面板中的位置,y坐标
+          };
+        },
+        methods: {
+          move(event) {
+            // 检查小球右侧不能超出边界
+            // event.clientX为鼠标所在位置的x坐标
+            // 加上小球半径即可计算出小球右边界的x坐标
+            console.log(event);
+            if (event.clientX + 30 > 440) {
+              this.offsetX = 440 - 60;
+            } else if (event.clientX - 30 < 0) {
+              // 检查左侧不能超出边界
+              this.offsetX = 0;
+            } else {
+              this.offsetX = event.clientX - 30;
+            }
+
+            // 检测下侧不能超出边界
+            if (event.clientY + 30 > 440) {
+              this.clientY = 440;
+            } else if (event.clientY - 30 < 0) {
+              this.clientY = 0;
+            } else {
+              this.offsetY = event.clientY - 30;
+            }
+          },
+        },
+      };
+      Vue.createApp(app).mount("#Application");
+    </script>
+  </body>
+</html>

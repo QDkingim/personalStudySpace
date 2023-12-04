@@ -1,0 +1,105 @@
+<!-- 开发一款小巧的开关按钮组件 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 开关组件</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="Application">
+      <my-switch
+        @switch-change="change1"
+        switch-style="mini"
+        background-color="green"
+        border-color="green"
+        color="blue"
+      ></my-switch>
+      <div>开关状态:{{ state1 }}</div>
+      <br />
+      <my-switch
+        @switch-change="change2"
+        switch-style="normal"
+        background-color="blue"
+        border-color="blue"
+        color="red"
+      ></my-switch>
+      <div>开关状态:{{ state2 }}</div>
+    </div>
+    <script>
+      // 定义组件配置对象
+      const switchComponent = {
+        // 定义外部属性
+        props: ["switchStyle", "borderColor", "backgroundColor", "color"],
+        // 内部属性,控制开关状态
+        data() {
+          return {
+            isOpen: false,
+            left: "0px",
+          };
+        },
+        // 通过计算属性来设置css样式
+        computed: {
+          cssStyleBG: {
+            get() {
+              if (this.switchStyle == "mini") {
+                return `position:relative;border-color:${
+                  this.borderColor
+                };border-width:2px;border-style:solid;width:55px;height:30px;border-radius:30px;background-color:${
+                  this.isOpen ? this.backgroundColor : "white"
+                }`;
+              } else {
+                return `position:relative;border-color:${
+                  this.borderColor
+                };border-width:2px;border-style:solid;width:55px;height:30px;border-radius:10px;background-color:${
+                  this.isOpen ? this.backgroundColor : "white"
+                }`;
+              }
+            },
+          },
+          cssStyleBtn: {
+            get() {
+              if (this.switchStyle == "mini") {
+                return `position:absolute;width:30px;height:30px;left:${this.left};border-radius:50%;background-color:${this.color}`;
+              } else {
+                return `position:absolute;width:30px;height:30px;left:${this.left};border-radius:8px;background-color:${this.color}`;
+              }
+            },
+          },
+        },
+        // 组件状态切换
+        methods: {
+          click() {
+            this.isOpen = !this.isOpen;
+            this.left = this.isOpen ? "25px" : "0px"; // 修改滑块位置
+            this.$emit("switchChange", this.isOpen);
+          },
+        },
+        template: `<div :style="cssStyleBG" @click="click">
+            <div :style="cssStyleBtn"></div>
+          </div>`,
+      };
+
+      const App = Vue.createApp({
+        data() {
+          return {
+            state1: "关",
+            state2: "关",
+          };
+        },
+        methods: {
+          change1(isOpen) {
+            this.state1 = isOpen ? "开" : "关";
+          },
+          change2(isOpen) {
+            this.state2 = isOpen ? "开" : "关";
+          },
+        },
+      });
+
+      App.component("my-switch", switchComponent);
+      App.mount("#Application");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户列表 Normal</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      .container {
+        margin: 50px;
+      }
+      .content {
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="Application">
+      <div class="container">
+        <div class="content">
+          <input type="radio" :value="-1" v-model="sexFilter" />全部
+          <input type="radio" :value="0" v-model="sexFilter" />男
+          <input type="radio" :value="1" v-model="sexFilter" />女
+        </div>
+        <div class="content">
+          搜索: <input type="text" v-model="searchKey" />
+        </div>
+        <div class="content">
+          <table border="1" width="300px">
+            <tr>
+              <th>姓名</th>
+              <th>性别</th>
+            </tr>
+            <tr v-for="(data,index) in showDatas" :key="index">
+              <td>{{data.name}}</td>
+              <td>{{data.sex==0?"男":"女"}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      let mock = [
+        {
+          name: "小王",
+          sex: 0,
+        },
+        {
+          name: "小红",
+          sex: 1,
+        },
+        {
+          name: "小李",
+          sex: 1,
+        },
+        {
+          name: "小张",
+          sex: 0,
+        },
+      ];
+      let app = {
+        data() {
+          return {
+            // 性别筛选字段,-1表示默认状态,不进行筛选
+            sexFilter: -1,
+            // 展示的用户列表数据
+            showDatas: [],
+            // 搜索关键词,空字符串表示默认状态,不进行筛选
+            searchKey: "",
+          };
+        },
+        methods: {
+          // 模拟获取用户数据
+          queryAllData() {
+            this.showDatas = mock;
+          },
+          // 进行性别筛选
+          filterData() {
+            // 将关键词置空
+            this.searchKey = "";
+            // 如果sexFilter的值为-1,则表示不进行筛选,将showDatas赋值为完整数据列表
+            if (this.sexFilter == -1) {
+              this.showDatas = mock;
+            } else {
+              // 使用filter函数将符合条件的数据筛选出来
+              this.showDatas = mock.filter((data) => {
+                return data.sex == this.sexFilter;
+              });
+            }
+          },
+          // 进行关键词检索
+          searchData() {
+            // 将性别筛选置空
+            this.sexFilter = -1;
+            // 如果关键词为空字符串,则将showDatas赋值为完整的数据列表
+            if (this.searchKey.length == 0) {
+              this.showDatas = mock;
+            } else {
+              // 若名称中包含输入的关键词,则表示匹配成功
+              this.showDatas = mock.filter((data) => {
+                return data.name.search(this.searchKey) != -1;
+              });
+            }
+          },
+        },
+        mounted() {
+          // 模拟请求过程
+          setTimeout(this.queryAllData(), 3000);
+        },
+        watch: {
+          sexFilter(oldval, newval) {
+            this.filterData();
+          },
+          searchKey(oldval, newval) {
+            this.searchData();
+          },
+        },
+      };
+
+      Vue.createApp(app).mount("#Application");
+    </script>
+  </body>
+</html>

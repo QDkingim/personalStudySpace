@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Transition过渡</title>
+</head>
+<body>
+    <style>
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition-property: width, height, background-color;
+            transition-duration: 1s;
+            transition-timing-function: linear;
+            transition-delay: 2s;
+        }
+        .demo-ani {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+            transition: width 2s, height 2s,background-color 2s;
+        }
+    </style>
+    <div id="Application">  
+        <div :class="cls" @click="run">
+
+        </div>   
+    </div>
+    <script>
+        const App = Vue.createApp({
+            data(){
+                return {
+                    cls:"demo"
+                }
+            },
+            methods: {
+                run() {
+                    if (this.cls == "demo") {
+                        this.cls = "demo-ani"
+                    } else {
+                        this.cls = "demo"
+                    }
+                }
+            }
+        })
+        App.mount("#Application") 
+    </script>
+</body>
+</html>

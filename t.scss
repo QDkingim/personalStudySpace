@@ -1,0 +1,51 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin border-stroke($val) {
+  @if $val==light {
+    border: 1px solid black;
+  }
+
+  @else if $val==medium {
+    border: 3px solid black;
+  }
+
+  @else if $val==heavy {
+    border: 6px solid black;
+  }
+
+  @else {
+    border: none;
+  }
+}
+
+@for $j from 1 to 6 {
+  .text-#{$j} {
+    font-size: 15px*$j;
+  }
+}
+
+@each $color in blue,
+black,
+red {
+  .#{$color}-bg {
+    background-color: $color;
+  }
+}
+
+
+// 使用 @while 创建一系列具有不同 font-sizes 的 class。
+
+// 从 text-1 到 text-5 应该有 5 个不同的 class。 然后将 font-size 设置为 15px 乘以当前索引号。 注意不要写成死循环！
+$x:1;
+
+@while $x<6 {
+  .text-#{$x} {
+    font-size: 15*$x;
+    $x: $x+1;
+  }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Vue过渡动画</title>
+  </head>
+  <body>
+    <style>
+      .demo {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+      .demo2 {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+      .ani-enter-from {
+        width: 0px;
+        height: 0px;
+        background-color: red;
+      }
+      .ani-enter-active {
+        transition: width 3s, height 3s, background-color 3s;
+      }
+      .ani-enter-to {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+      .ani-leave-from {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+      .ani-leave-active {
+        transition: width 3s, height 3s, background-color 3s;
+      }
+      .ani-leave-to {
+        width: 0px;
+        height: 0px;
+        background-color: red;
+      }
+    </style>
+    <div id="Application">
+      <button @click="click">显示/隐藏</button>
+      <transition name="ani" mode="out-in">
+        <div v-if="show" class="demo"></div>
+        <div v-else class="demo2"></div>
+      </transition>
+    </div>
+    <script>
+      const App = Vue.createApp({
+        data() {
+          return {
+            show: false,
+          };
+        },
+        methods: {
+          click() {
+            this.show = !this.show;
+          },
+        },
+      });
+      App.mount("#Application");
+    </script>
+  </body>
+</html>

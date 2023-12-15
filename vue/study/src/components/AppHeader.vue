@@ -16,6 +16,7 @@
         background-color="#e8e7e3"
         text-color="#777"
         active-text-color="#000"
+        @select="selectItem"
       >
         <el-menu-item
           v-for="item in items"
@@ -46,7 +47,11 @@ export default {
 
   //mounted() {},
 
-  methods: {},
+  methods: {
+    selectItem(index) {
+      this.$emit("selected", index);
+    },
+  },
 };
 </script>
 <style scoped>

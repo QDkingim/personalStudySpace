@@ -7,10 +7,13 @@
 <template>
   <el-container id="container">
     <el-header style="width: 100%; height: 120px">
-      <Header :items="navItems"></Header>
+      <Header :items="navItems" @selected="changeSelected"></Header>
     </el-header>
     <el-main>
-      <Body :items="bodyItems"></Body>
+      <Body
+        :items="bodyItems"
+        :topic="navItems[currentTopicIndex].title"
+      ></Body>
     </el-main>
     <el-footer>
       <div id="footer">{{ desc }}</div>
@@ -21,30 +24,20 @@
 <script>
 import Body from "./AppBody.vue";
 import Header from "./AppHeader.vue";
+import FM from "../tools/FileManager";
 export default {
   data() {
     return {
-      navItems: [
-        {
-          index: 0,
-          title: "HTML专题",
-        },
-        {
-          index: 1,
-          title: "CSS专题",
-        },
-      ],
-      bodyItems: [
-        {
-          index: 0,
-          title: "HTML简介",
-        },
-        {
-          index: 1,
-          title: "HTML编辑器",
-        },
-      ],
+      // map返回一个新数组,数组里的每一项都是return后面的返回值
+      navItems: FM.getAllTopic().map((item, ind) => {
+        return {
+          index: ind,
+          title: item,
+        };
+      }),
       desc: "版权所有, 仅限学习使用, 禁止传播!",
+      // 当前展示的专题
+      currentTopicIndex: 0,
     };
   },
 
@@ -53,13 +46,33 @@ export default {
     Header,
   },
 
-  computed: {},
+  computed: {
+    // 此计算属性用来获取当前专题下所有的文章列表
+    bodyItems() {
+      return FM.getPosts(this.currentTopicIndex).map((item, index) => {
+        return {
+          index: String(index),
+          title: item,
+        };
+      });
+    },
+  },
 
   created() {},
 
-  //mounted() {},
+  mounted() {
+    // 组件挂载时,使用FileManager来获取当前所要展示的文章内容
+    FM.getPostContent("HTML专题", "文本标签").then((res) => {
+      console.log(res);
+    });
+  },
 
-  methods: {},
+  methods: {
+    // 专题切换时调用的方法
+    changeSelected(index) {
+      this.currentTopicIndex = Number(index);
+    },
+  },
 };
 </script>
 <style scoped>

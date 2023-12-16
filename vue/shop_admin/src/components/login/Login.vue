@@ -18,7 +18,7 @@
 
 <script>
 import Storage from '@/tools/Storage.js'
-import { Elmessage } from 'element-plus'
+import { ElMessage } from 'element-plus'
 export default {
   name: "Login",
   data() {
@@ -40,7 +40,7 @@ export default {
         name: this.name,
         password: this.password
       })
-      Elmessage({
+      ElMessage({
         message: "登录成功",
         type: 'success',
         duration: 3000

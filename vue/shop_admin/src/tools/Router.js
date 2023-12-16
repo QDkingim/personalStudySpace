@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Login from "@/components/login/Login.vue";
 import Home from "@/components/home/Home.vue";
 import store from "./Storage";
+import Order from "@/components/order/Order.vue";
 
 // 创建路由实例
 const Router = createRouter({
@@ -17,6 +18,14 @@ const Router = createRouter({
       path: "/home",
       component: Home,
       name: "home",
+      children: [
+        {
+          path: "order/:type", //0是普通订单,1是秒杀订单
+          component: Order,
+          name: "order",
+        },
+      ],
+      redirect: "/home/order/0",
     },
   ],
 });

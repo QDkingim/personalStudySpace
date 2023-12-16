@@ -4,6 +4,8 @@ import Login from "@/components/login/Login.vue";
 import Home from "@/components/home/Home.vue";
 import store from "./Storage";
 import Order from "@/components/order/Order.vue";
+import Goods from "@/components/goods/Goods.vue";
+import AddGoods from "@/components/goods/AddGoods.vue";
 
 // 创建路由实例
 const Router = createRouter({
@@ -23,6 +25,16 @@ const Router = createRouter({
           path: "order/:type", //0是普通订单,1是秒杀订单
           component: Order,
           name: "order",
+        },
+        {
+          path: "goods/:type", //0是普通商品,1是秒杀商品,2是今日推荐
+          component: Goods,
+          name: "goods",
+        },
+        {
+          path: "addGoods/:type", //0是普通商品,1是秒杀商品,2是今日推荐
+          component: AddGoods,
+          name: "addGoods",
         },
       ],
       redirect: "/home/order/0",

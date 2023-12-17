@@ -1,17 +1,20 @@
 // 路由配置
-import { createRouter, createWebHashHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory
+} from "vue-router";
 import Login from "@/components/login/Login.vue";
 import Home from "@/components/home/Home.vue";
 import store from "./Storage";
 import Order from "@/components/order/Order.vue";
 import Goods from "@/components/goods/Goods.vue";
 import AddGoods from "@/components/goods/AddGoods.vue";
+import GoodsCategory from "@/components/goods/GoodsCategory.vue";
 
 // 创建路由实例
 const Router = createRouter({
   history: createWebHashHistory(),
-  routes: [
-    {
+  routes: [{
       path: "/login",
       component: Login,
       name: "login",
@@ -20,8 +23,7 @@ const Router = createRouter({
       path: "/home",
       component: Home,
       name: "home",
-      children: [
-        {
+      children: [{
           path: "order/:type", //0是普通订单,1是秒杀订单
           component: Order,
           name: "order",
@@ -36,6 +38,11 @@ const Router = createRouter({
           component: AddGoods,
           name: "addGoods",
         },
+        {
+          path: "category",
+          component: GoodsCategory,
+          name: "goodsCategory",
+        },
       ],
       redirect: "/home/order/0",
     },
@@ -49,7 +56,9 @@ Router.beforeEach((from) => {
     return true;
   } else {
     // 当发现未登录时,重定向到login页面
-    return { name: "login" };
+    return {
+      name: "login"
+    };
   }
 });
 

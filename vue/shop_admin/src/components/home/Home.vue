@@ -3,11 +3,26 @@
   <el-container id="container">
     <el-aside width="250px">
       <el-container id="top">
-        <img src="~@/assets/logo.png" style="width: 25px;height: 25px;margin: auto;margin-right: 0;">
-        <div style="margin: auto;margin-left: 10px;color: #fff;font-size: 17px;">电商后台管理</div>
+        <img
+          src="~@/assets/logo.png"
+          style="width: 25px; height: 25px; margin: auto; margin-right: 0"
+        />
+        <div
+          style="margin: auto; margin-left: 10px; color: #fff; font-size: 17px"
+        >
+          电商后台管理
+        </div>
       </el-container>
-      <el-menu id="aside_menu" :default-active="$route.path" style="height: 100%;" background-color="#545c64"
-        text-color="#fff" active-text-color="#ffd04b" @select="selectItem">
+      <el-menu
+        id="aside_menu"
+        :default-active="this.$route.path"
+        style="height: 100%"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        @select="selectItem"
+        router
+      >
         <el-sub-menu index="1">
           <template #title>
             <el-icon>
@@ -64,12 +79,19 @@
     </el-aside>
     <el-main>
       <!-- 添加一个通用头部 -->
-      <el-header style="margin: 0;padding: 0;height: 80px;">
-        <el-container style="background-color: blanchedalmond;margin: 0;padding: 0;height: 80px;">
-          <div style="margin: auto;margin-left: 100px;">
+      <el-header style="margin: 0; padding: 0; height: 80px">
+        <el-container
+          style="
+            background-color: blanchedalmond;
+            margin: 0;
+            padding: 0;
+            height: 80px;
+          "
+        >
+          <div style="margin: auto; margin-left: 100px">
             <h1>欢迎您登录后台管理系统,管理员用户!</h1>
           </div>
-          <div style="margin: auto;margin-right: 50px;">
+          <div style="margin: auto; margin-right: 50px">
             <el-button type="primary" @click="logout">注销</el-button>
           </div>
         </el-container>
@@ -81,7 +103,7 @@
 </template>
 
 <script>
-import store from '@/tools/Storage';
+import store from "@/tools/Storage";
 
 export default {
   name: "Home",
@@ -91,11 +113,11 @@ export default {
   components: {},
   methods: {
     logout() {
-      store.commit('clearUserInfo')
-      this.$router.push({ name: 'login' })
-    }
-  }
-}
+      store.commit("clearUserInfo");
+      this.$router.push({ name: "login" });
+    },
+  },
+};
 </script>
 
 <style scoped>

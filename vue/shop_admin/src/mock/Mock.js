@@ -45,6 +45,43 @@ const Mock = {
 
     return array;
   },
+  // 店长管理数据
+  getManagerList() {
+    let array = [];
+    for (let i = 0; i < mockjs.Random.integer(5, 10); i++) {
+      array.push(
+        mockjs.mock({
+          people: mockjs.Random.csentence(),
+          weixin: mockjs.Random.string(7, 10),
+          income: mockjs.Random.integer(0, 500000) + "元",
+          back: mockjs.Random.integer(0, 1000),
+          backPrice: mockjs.Random.integer(0, 5000) + "元",
+          source: "站内",
+          customer: mockjs.Random.integer(0, 50),
+          state: mockjs.Random.boolean(),
+        })
+      );
+    }
+
+    return array;
+  },
+  getChartsData() {
+    let array = [];
+    for (let i = 0; i < 6; i++) {
+      array.push(mockjs.Random.integer(0, 100));
+    }
+    return array;
+  },
+  getTradeData() {
+    return mockjs.mock({
+      allTra: mockjs.Random.integer(10000, 50000),
+      speTra: mockjs.Random.integer(0, 5000),
+      norTra: mockjs.Random.integer(0, 5000),
+      userCount: mockjs.Random.integer(0, 1000),
+      managerCount: mockjs.Random.integer(0, 100),
+      time: mockjs.Random.datetime("yyyy-MM-dd A HH:mm:ss"),
+    });
+  },
 };
 
 export default Mock;

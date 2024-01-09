@@ -28,3 +28,5 @@ var isValid = function (s) {
   };
   return !stk.length;
 };
+
+// 看了题解才通过

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一个输入框多种校验规则</title>
+</head>
+
+<body>
+  <form action="https://www.baidu.com/" id="registerForm" method="post">
+    请输入用户名: <input type="text" name="userName">
+    请输入密码: <input type="text" name="password">
+    请输入手机号: <input type="text" name="phoneNumber">
+    <button>提交</button>
+  </form>
+
+  <script>
+    // 策略对象
+    var strategies = {
+      isNonEmpty: function (value, errMessage) {
+        // 不为空
+        if (value === '') {
+          return errMessage
+        }
+      },
+      minLength: function (value, length, errMessage) {
+        // 限制最小长度
+        if (value.length < length) {
+          return errMessage
+        }
+      },
+      isMobile: function (value, errMessage) {
+        // 手机号格式验证
+        if (!/(^1[3|5|8][0-9]{9}$)/.test(value)) {
+          return errMessage
+        }
+      }
+    }
+
+    // Validator类
+    var Validator = function () {
+      this.cache = []
+    }
+
+    Validator.prototype.add = function (dom, rules) {
+      var self = this;
+      for (let i = 0, rule; rule = rules[i++];) {
+        (function (rule) {
+          var strategyAry = rule.strategy.split(':');
+          var errMessage = rule.errMessage;
+
+          self.cache.push(function () {
+            var strategy = strategyAry.shift();
+            strategyAry.unshift(dom.value);
+            strategyAry.push(errMessage);
+            return strategies[strategy].apply(dom, strategyAry);
+          })
+        })(rule)
+      }
+    }
+
+    Validator.prototype.start = function () {
+      for (let i = 0, validateFunc; validateFunc = this.cache[i++];) {
+        var errMessage = validateFunc()
+        if (errMessage) {
+          return errMessage
+        }
+      }
+    }
+
+
+    // 客户调用代码
+    var registerForm = document.getElementById('registerForm');
+
+    var validateFunc = function () {
+      var validator = new Validator()
+
+      validator.add(registerForm.userName, [{
+        strategy: 'isNonEmpty',
+        errMessage: '用户名不能为空'
+      }, {
+        strategy: 'minLength:10',
+        errMessage: '用户名长度不能低于10位'
+      }])
+
+
+      var errMessage = validator.start()
+      return errMessage
+    }
+
+    registerForm.onsubmit = function () {
+      var errMessage = validateFunc()
+
+      if (errMessage) {
+        alert(errMessage)
+        return false
+      }
+    }
+  </script>
+</body>
+
+</html>

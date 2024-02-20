@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>命令模式例子-菜单程序</title>
+</head>
+
+<body>
+  <button id="btn1">点击按钮1</button>
+  <button id="btn2">点击按钮2</button>
+  <button id="btn3">点击按钮3</button>
+
+  <script>
+    var btn1 = document.getElementById("btn1")
+    var btn2 = document.getElementById("btn2")
+    var btn3 = document.getElementById("btn3")
+
+    // 接下来定义setCommand函数,负责往按钮上安装命令.可以肯定的是,点击按钮会执行某个command命令,执行命令的动作被约定为调用command对象的execute()方法
+    var setCommand = function (btn, command) {
+      btn.onclick = function () {
+        command.execute()
+      }
+    }
+
+    var MenuBar = {
+      refresh: function () {
+        console.log("刷新菜单目录");
+      }
+    }
+
+    var SubMenu = {
+      add: function () {
+        console.log("增加子菜单");
+      },
+      del: function () {
+        console.log("删除子菜单");
+      }
+    }
+
+    // 把行为封装在命令类中:
+    var RefreshMenuBarCommand = function (receiver) {
+      this.receiver = receiver
+    }
+
+    RefreshMenuBarCommand.prototype.execute = function () {
+      this.receiver.refresh()
+    }
+
+    var AddSubMenuCommand = function (receiver) {
+      this.receiver = receiver
+    }
+
+    AddSubMenuCommand.prototype.execute = function () {
+      this.receiver.add()
+    }
+
+    var DelSubMenuCommand = function (receiver) {
+      this.receiver = receiver
+    }
+
+    DelSubMenuCommand.prototype.execute = function () {
+      this.receiver.del()
+    }
+
+
+    // 把命令接收者传入到command对象中,并且把command对象安装到button按钮上
+    var refreshMenuBarCommand = new RefreshMenuBarCommand(MenuBar)
+    var addSubMenuCommand = new AddSubMenuCommand(SubMenu)
+    var delSubMenuCommand = new DelSubMenuCommand(SubMenu)
+
+    setCommand(btn1, refreshMenuBarCommand)
+    setCommand(btn2, addSubMenuCommand)
+    setCommand(btn3, delSubMenuCommand)
+  </script>
+</body>
+
+</html>

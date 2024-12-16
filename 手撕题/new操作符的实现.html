@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new操作符的实现</title>
+</head>
+
+<body>
+  <script>
+    function myNew(constructor, ...arg) {
+      let obj = {}
+
+      obj.__proto__ = constructor.prototype
+
+      let result = constructor.apply(obj, arg)
+
+      return result instanceof Object ? result : obj
+    }
+
+    function Person(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+
+    const john = myNew(Person, 'John', 30);
+    console.log(john.name); // 输出 "John"
+    console.log(john.age); // 输出 30
+  </script>
+</body>
+
+</html>

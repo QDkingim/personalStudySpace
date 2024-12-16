@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>继承的实现</title>
+</head>
+
+<body>
+  <script>
+    // 组合继承
+    function Animal(name) {
+      this.name = name
+      console.log("Animal is called");
+    }
+
+    Animal.prototype.sayHello = function () {
+      console.log(`Hello, I'm ${this.name}`)
+    }
+
+    function Dog(name, breed) {
+      Animal.call(this, name)
+      this.breed = breed
+      console.log("Dog is called");
+    }
+
+    Dog.prototype = Object.create(Animal.prototype) // 这块使用new Animal()也可以,但是会调用2次父级的构造函数
+
+    Dog.prototype.constructor = Dog
+
+    let dog = new Dog('Buddy', 'Golden Retriever')
+
+    dog.sayHello()
+  </script>
+</body>
+
+</html>

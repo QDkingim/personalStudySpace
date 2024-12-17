@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数柯里化-闭包</title>
+</head>
+
+<body>
+  <script>
+    function curry(fn) {
+      return function curried(...args) {
+        if (args.length >= fn.length) {
+          // 如果当前传入的参数数量大于等于原函数的参数数量，直接调用原函数
+          return fn.apply(this, args);
+        } else {
+          // 否则返回一个新的函数，用于接收剩余的参数
+          return function (...nextArgs) {
+            return curried.apply(this, args.concat(nextArgs)); // 递归调用curried函数，将当前传入的参数和剩余的参数合并
+          };
+        }
+      };
+    }
+
+    function add(a, b, c) {
+      return a + b + c
+    }
+
+    let addCurried = curry(add)
+    console.log(addCurried(1, 2, 3))
+    console.log(addCurried(1, 2)(3))
+  </script>
+</body>
+
+</html>

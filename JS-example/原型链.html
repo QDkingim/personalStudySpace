@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    function Person(name) {
+      this.name = name
+    }
+    Person.prototype.sayHello = function () {
+      console.log(`Hello, I'm ${this.name}`);
+    };
+
+    function Student(name, grade) {
+      Person.call(this, name);
+      this.grade = grade;
+    }
+
+    Student.prototype = Object.create(Person.prototype);
+    Student.prototype.constructor = Student;
+
+    let student = new Student('Alice', 10);
+    student.sayHello();
+  </script>
+</body>
+
+</html>

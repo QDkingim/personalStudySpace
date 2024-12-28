@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现一个bind函数</title>
+</head>
+
+<body>
+  <script>
+    Function.prototype.myBind = function (context, ...args1) {
+      if (typeof this !== 'function') {
+        throw new Error('myBind must be called on a function');
+      }
+      const fn = this;
+      return function (...args2) {
+        return fn.apply(context, [...args1, ...args2]);
+      }
+    }
+    let obj = {
+      name: "obj",
+      greet: function (a, b) {
+        console.log(this.name, a, b);
+      }
+    }
+    const bindGreet = obj.greet.myBind({
+      name: "newObj"
+    }, 1);
+
+    bindGreet("renxiangsan");
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手写Promise.finally</title>
+</head>
+
+<body>
+  <script>
+    // 手写Promise.finally
+    Promise.prototype.myFinally = function (callback) {
+      return this.then(
+        value => Promise.resolve(callback()).then(() => value),
+        reason => Promise.resolve(callback()).then(() => {
+          throw reason
+        })
+      );
+    };
+  </script>
+</body>
+
+</html>
